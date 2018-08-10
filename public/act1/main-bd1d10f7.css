@@ -1,0 +1,55 @@
+@charset "gb2312";
+@media screen and (min-width: 375px){
+	body{font-size:11px}
+	html{font-size:11px}
+}
+@media screen and (mnax-width: 375px){
+	body{font-size:10px}
+	html{font-size:10px}
+}
+@media screen and (max-width: 359px){
+	body{font-size:9px}
+	html{font-size:9px}
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td {margin: 0;padding: 0; }
+a{-webkit-user-select:none; -webkit-user-drag:none; -webkit-tap-highlight-color:rgba(0,0,0,0); text-decoration: none;}
+body{ width:100%; max-width: 640px; font-size:0; line-height:0; font-family:"Helvetica Neue",Helvetica, Microsoft Yahei UI,Arial,Tahoma; background: #1b3147}
+img{ max-width:100%;}
+em,i{ font-style: normal;}
+input,button,select,textarea{outline:none;border:0 none;-webkit-appearance:none;appearance:none; background:transparent}
+*{ box-sizing:border-box;-webkit-box-sizing:border-box;}
+.pa{ position: absolute; display:none}
+.section{ position: relative; }
+.section p{font-size: 1.1rem; line-height: 1.6rem; color:#cdd4d7}
+.section em{ color:#c2ae70}
+.section-text{ top: 43.4%;}
+.p-1{ text-indent:2em}
+.p-1,.text-position-1,.text-position-2,.text-position-3,.text-position-4,.text-position-5{ padding: 0 3rem}
+.text-position-1{ top: 18%;}
+.text-position-2{ top: 40%;}
+.text-position-3{ top: 57%;}
+.text-position-4{ top:71%;}
+.text-position-5{ top:87.55%;}
+
+.text-position-6,.text-position-7,.text-position-8,.text-position-9{width: 66.7%; height: 13.25%; }
+.text-position-6{ top:21.53%; left: 25.5%;}
+.text-position-7{ top:44%; left: 12.9%;}
+.text-position-8{ top:63%; left: 25.5%;}
+.text-position-9{top:80%; left: 12%;}
+
+.text-position-10,.text-position-11,.text-position-12,.text-position-13{width: 69.53%; height: 11.33%; left: 25.3% }
+.text-position-10{ top:15.8%; }
+.text-position-11{ top:35%; }
+.text-position-12{ top:52%; }
+.text-position-13{ top:68%; }
+
+.p-bttom{ padding-bottom:78px;}
+.btn-wrap{ position: fixed; left: 0; right: 0; bottom: 0; padding: 10px 0 0; background: url(//game.gtimg.cn/images/user/cp/a20180428zhaomu/5.jpg) no-repeat; background-size: cover;}
+.btn{ width:192px; height:69px;  display:block; margin:0 auto; text-indent: -1000em; overflow: hidden; background:url(//game.gtimg.cn/images/user/cp/a20180428zhaomu/btn.png) no-repeat;background-size:100% 100%;}
+body {
+	background-image:url(555dba0ec109d7027a9524b7320e319d.png);
+}
+.boximg {
+    margin-bottom: 20px;margin-right:20px;width:180px;height:180px;
+}
+
