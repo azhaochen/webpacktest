@@ -71,6 +71,7 @@ module.exports = function(env, argv){
 			alias: {
 				comm: 	 path.resolve(contextpath, 'app/comm'),		//这样业务代码引用时，只需要 require('comm/login.js')即可，不用../../
 				library: path.resolve(contextpath, 'library'),		//这样业务代码引用时，只需要 require('library/qrcode.js')即可，不用../../../
+				//zepto: path.resolve(contextpath, 'library/zepto.min.js'),
 			}
 		},
 		externals:{
@@ -80,6 +81,7 @@ module.exports = function(env, argv){
 		plugins: [
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV':JSON.stringify(mode),
+				//'zepto':'zepto',
 			}),
 			new MiniCssExtractPlugin({
 				filename: mode==='development' ? "[name].css" : "[name].[contenthash:8].css",
@@ -97,25 +99,55 @@ module.exports = function(env, argv){
 			  cacheGroups: {
 				//minSize: 3000,						//至少30k才拆分出来
 				sc_library: {
-					test: /[\\/]library[\\/]/,		// library 目录的所有都生成 sc_library chunk，每个页面加载	
-					name: 'sc_library',
+					test: /[\\/]library|node_modules[\\/]/,		// library 或者 node_modules目录的所有都生成 sc_library chunk，每个页面加载	
+					name: 'app/comm/sc_library',
 					chunks: 'all',
 				},
 				sc_comm: {
-					test: /[\\/]comm[\\/]/,			// comm 目录的所有都生成 sc_library chunk，每个页面加载	
-					name: 'sc_comm',				//注意，小于30k的，webpack不会splitChunk
+					test: /[\\/]comm[\\/]/,			// comm 目录的所有都生成 sc_comm chunk，每个页面加载	
+					name: 'app/comm/sc_comm',				//注意，小于30k的，webpack不会splitChunk
 					chunks: 'all',
 				}
 			  }
 			}
 		},
 		devServer: {
-			//host: '0.0.0.0',			//can be accessible externally
+			host: '10.32.192.132',			//can be accessible externally
+			port: 8080,
 			contentBase: outputpath, 	//本地服务器所加载的页面所在的目录
 			historyApiFallback: true,	//不跳转
-			inline: true				//实时刷新
+			inline: true,				//实时刷新
+			proxy: {
+			  '/pvp':{
+					target:'http://test.igame.qq.com',	//需要登录cookie的不好使
+					secure:false,
+					changeOrigin:true
+			  },
+			  cookieDomainRewrite:'test.igame.qq.com',
+				//onProxyRes: function(proxyRes, req, res) {
+				//  var cookies = proxyRes.headers['set-cookie'];
+				//  var cookieRegex = /Path=\/test.igame.qq.com\//i;
+				//  //修改cookie Path
+				//  if (cookies) {
+				//	var newCookie = cookies.map(function(cookie) {
+				//	  if (cookieRegex.test(cookie)) {
+				//		return cookie.replace(cookieRegex, 'Path=/');
+				//	  }
+				//	  return cookie;
+				//	});
+				//	//修改cookie path
+				//	delete proxyRes.headers['set-cookie'];
+				//	proxyRes.headers['set-cookie'] = newCookie;
+				//  }
+				//}
+			  
+			}
 		},
 		module: {
+			//noParse:[					//no AMD/CommonJS version of the module。Then webpack will just include the module without parsing it
+				///[\\/]library[\\/]zepto\.min\.js$/
+				///[\\/]library[\\/]jweixin-1\.0\.0\.js$/
+			//],
 			rules: [
 				{
 					test: /\.html$/,
@@ -150,8 +182,13 @@ module.exports = function(env, argv){
 				{
 					test: /\.css$/,
 					use: ['style-loader',MiniCssExtractPlugin.loader, 'css-loader?minimize'],	//建议将 style-loader 与 css-loader 结合使用
-				},	
+				},
 															// ‘style-loader’ might not be necessary anymore since MiniCssExtractPlugin.loader does the same. 
+				//{
+				//	test: /jweixin-1\.0\.0\.js/,
+				//	use: 'imports-loader?define=>false',	//imports-loader?$=jquery等，用于依赖于特定外部全局对象的第三方模块require
+				//},
+				
 				{
 					test: /\.js$/,
 					exclude: /node_modules/,	
@@ -178,7 +215,7 @@ module.exports = function(env, argv){
 		var options = {
 			template: htmlpath + '.html',
 			filename: htmlpath + '.html',		//生成的html存放路径
-			chunks  : [htmlpath, 'sc_library','sc_comm'],				//'manifest', 'vendor', 'app',
+			chunks  : [htmlpath, 'app/comm/sc_library','app/comm/sc_comm'],				//'manifest', 'vendor', 'app',
 		}
 		
 		webpackConfig.plugins.push(new HtmlWebpackPlugin(options))
