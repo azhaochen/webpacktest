@@ -98,12 +98,12 @@ module.exports = function(env, argv){
 				//minSize: 3000,						//至少30k才拆分出来
 				sc_library: {
 					test: /[\\/]library[\\/]/,		// library 目录的所有都生成 sc_library chunk，每个页面加载	
-					name: 'sc_library',
+					name: 'app/comm/sc_library',
 					chunks: 'all',
 				},
 				sc_comm: {
 					test: /[\\/]comm[\\/]/,			// comm 目录的所有都生成 sc_library chunk，每个页面加载	
-					name: 'sc_comm',				//注意，小于30k的，webpack不会splitChunk
+					name: 'app/comm/sc_comm',				//注意，小于30k的，webpack不会splitChunk
 					chunks: 'all',
 				}
 			  }
@@ -178,7 +178,7 @@ module.exports = function(env, argv){
 		var options = {
 			template: htmlpath + '.html',
 			filename: htmlpath + '.html',		//生成的html存放路径
-			chunks  : [htmlpath, 'sc_library','sc_comm'],				//'manifest', 'vendor', 'app',
+			chunks  : [htmlpath, 'app/comm/sc_library','app/comm/sc_comm'],				//'manifest', 'vendor', 'app',
 		}
 		
 		webpackConfig.plugins.push(new HtmlWebpackPlugin(options))
